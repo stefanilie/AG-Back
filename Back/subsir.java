@@ -5,7 +5,7 @@ class Backtrack
 {
   static int[] stack;
   static int[] array;
-  static int k, n, nArrayLimit, m;
+  static int k, n, nArrayLimit, m, iterator;
 
   public static void init()
   {
@@ -16,11 +16,14 @@ class Backtrack
    * Verific daca indicele elemetului din stack e mai mic
    * ca cel al limitei, si adaug element nou la stack.
    */
-  public static boolean succ(int altceva)
+  public static boolean succ()
   {
-    if(k <= n)
+    if(iterator <= nArrayLimit && k <= n)
     {
-      stack[k-1] = array[altceva];
+      iterator++;
+      stack[k-1] = array[iterator];
+      System.out.println("E in succ cu iterator=" + iterator +
+      	" si array[iterator] = " + array[iterator]);
       return true;
     }
     else return false;
@@ -29,10 +32,16 @@ class Backtrack
   public static boolean valid()
   {
   	int suma = 0;
-    for(int i=1; i<k; i++)
+    for(int i=0; i<k; i++)
     {
     	suma += stack[i];
     }
+    System.out.print("\nPentru n=" + n + " suma pentru multimea ");
+    for(int j=1; j<k; j++)
+    {
+    	System.out.print(stack[j] + " ");
+    }
+    System.out.print("este " + suma);
     if(suma == m)
   	  return true;
   	else 
@@ -57,12 +66,12 @@ class Backtrack
 
   public static void back(int stackLimit)
   {
-    boolean as; k=1; n = stackLimit;
+    boolean as; k=1; n = stackLimit; iterator = 0;
     init();
     while(k>0 && k< nArrayLimit)
     {
       do
-      {}while((as=succ(k)) && !(valid()));
+      {}while((as=succ()) && !(valid()));
       if(as==true)
       {
         if(solutie()==1) 
