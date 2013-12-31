@@ -18,39 +18,62 @@ class Backtrack
    */
   public static boolean succ()
   {
-    if(iterator <= nArrayLimit && k <= n)
+    if(iterator < nArrayLimit && k <= n)
     {
-      iterator++;
       stack[k-1] = array[iterator];
-      System.out.println("E in succ cu iterator=" + iterator +
-      	" si array[iterator] = " + array[iterator]);
+      System.out.print("\nE in succ cu iterator=" + iterator +
+      	" si array[iterator] = " + array[iterator] + " si k= " + k);
+      iterator++;
       return true;
     }
-    else return false;
+    else
+    {
+    	System.out.print("succ:Returnez false din else!");
+    } 
+    System.out.print("succ:Returnez false din default!");
+    return false;
   }
   
+  //aici trebuie sa adaug elementul la stack dupa ce am
+  //verificat ca mai am succesor
   public static boolean valid()
+  {
+  	if(k != 1)
+  	{
+	  	for (int i=0; i<k-1; i++)
+	  		for(int j=i+1; j<k; j++)
+	  		{
+			    if(stack[i]==stack[j])
+			    {
+			      System.out.print("Si a returnat false!\n");
+			  	  return false;
+			    }
+			  	else 
+			  	{
+			  	  System.out.print("Si a returnat true!\n");
+			  	  return true;
+			  	}
+			}
+  	}
+  	else return true;
+  	return false;
+  }
+
+  public static int solutie()
   {
   	int suma = 0;
     for(int i=0; i<k; i++)
     {
     	suma += stack[i];
     }
-    System.out.print("\nPentru n=" + n + " suma pentru multimea ");
-    for(int j=1; j<k; j++)
+    System.out.print("\nPentru n=" + n + " suma pentru multimea "+
+    	"S={");
+    for(int j=0; j<k; j++)
     {
     	System.out.print(stack[j] + " ");
     }
-    System.out.print("este " + suma);
-    if(suma == m)
-  	  return true;
-  	else 
-  	  return false;
-  }
-
-  public static int solutie()
-  {
-    if(k==n)
+    System.out.print("} este " + suma);
+    if(suma==m && k==n)
       return 1;
     else
       return 0;
@@ -58,15 +81,17 @@ class Backtrack
 
   public static void tiparire()
   {
-    System.out.println("\n\n\nZa finisd product:");
+    System.out.println("\n!\n!\nZa finisd product:");
     for (int i=0; i<=k; i++)
-      System.out.println(stack[i]);
-  	System.out.println("\n\n\n");
+      System.out.println(stack[i] + "");
+  	System.out.println("\n!\n!\n");
   }
 
   public static void back(int stackLimit)
   {
     boolean as; k=1; n = stackLimit; iterator = 0;
+  	System.out.println("\n\n!!!Am intrat in back cu n=" + n
+  		+"\n\n");
     init();
     while(k>0 && k< nArrayLimit)
     {
@@ -78,11 +103,16 @@ class Backtrack
           tiparire();
         else
         {
+          System.out.println("Am crescut pe k");
           k++;
         }
       }
-      else k--;
-    }
+      else 
+      {
+      	k--;
+      	System.out.print("\nsucc->false->Am scazut pe k, = " + k);
+      }
+    } 
   }
 
   public static void main(String[] args)
@@ -101,7 +131,7 @@ class Backtrack
 	  		i++;
 	  	}
 
-	  	for(i=0; i<nArrayLimit-1; i++)
+	  	for(i=1; i<nArrayLimit; i++)
 	  	{
 	  		back(i);
 	  	}
