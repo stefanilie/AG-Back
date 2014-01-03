@@ -18,7 +18,7 @@ class Backtrack
    */
   public static boolean succ()
   {
-    if(iterator < nArrayLimit && k <= n)
+    if(iterator < nArrayLimit && k < n)
     {
       stack[k-1] = array[iterator];
       System.out.print("\nE in succ cu iterator=" + iterator +
@@ -26,16 +26,22 @@ class Backtrack
       iterator++;
       return true;
     }
-    else
+    else if(iterator >= nArrayLimit)
     {
-    	System.out.print("succ:Returnez false din else!");
-    } 
-    System.out.print("succ:Returnez false din default!");
+    	System.out.print("\nsucc: iterator>= nArrayLimit"); 
+    }
+    else if(k>=n)
+    {
+    	System.out.print("\nsucc: k>n");
+    }
+    else if(iterator>=nArrayLimit && k>n)
+    {
+    	System.out.print("\nsucc: iterator>=nArrayLimit&&k>n");
+    }
+    System.out.print("\nsucc:Returnez false din default!");
     return false;
   }
   
-  //aici trebuie sa adaug elementul la stack dupa ce am
-  //verificat ca mai am succesor
   public static boolean valid()
   {
   	if(k != 1)
@@ -45,12 +51,12 @@ class Backtrack
 	  		{
 			    if(stack[i]==stack[j])
 			    {
-			      System.out.print("Si a returnat false!\n");
+			      System.out.print("\nvalid:Si a returnat false!");
 			  	  return false;
 			    }
 			  	else 
 			  	{
-			  	  System.out.print("Si a returnat true!\n");
+			  	  System.out.print("\nvalid:Si a returnat true!");
 			  	  return true;
 			  	}
 			}
@@ -66,7 +72,7 @@ class Backtrack
     {
     	suma += stack[i];
     }
-    System.out.print("\nPentru n=" + n + " suma pentru multimea "+
+    System.out.print("\n\nPentru n=" + n + " suma pentru multimea "+
     	"S={");
     for(int j=0; j<k; j++)
     {
@@ -93,7 +99,7 @@ class Backtrack
   	System.out.println("\n\n!!!Am intrat in back cu n=" + n
   		+"\n\n");
     init();
-    while(k>0 && k< nArrayLimit)
+    while(k>0 && k < nArrayLimit)
     {
       do
       {}while((as=succ()) && !(valid()));
@@ -103,14 +109,40 @@ class Backtrack
           tiparire();
         else
         {
-          System.out.println("Am crescut pe k");
           k++;
+          System.out.print("\nAre succ, e valid"+
+          	", dar nu are sol. Am crescut pe k, acum =" + k);
         }
       }
       else 
       {
       	k--;
       	System.out.print("\nsucc->false->Am scazut pe k, = " + k);
+      	if(iterator == nArrayLimit && n != 1 && k >= 2)
+      	{
+      		for(int b=0; b<nArrayLimit; b++)
+      		{
+      			if(stack[k-2] == array[b])
+      			{
+      				iterator=b+1;
+      				System.out.print("\niterator==nArrayLimit->"+
+      					"b= " + b+1);
+      				b=nArrayLimit+5;//pentru ca filme
+      				for(int g=k-1; g<n; g++)
+      				{
+      					stack[g] = g-5423; //pentru ca automobile
+      				}
+      				k--;
+
+//cand ajunge aici, trebuie sa inlocuiasca pe stack[k-2] cu
+//urmatorul din lista si sa stearga tot ce urmeaza dupa el;
+      			}
+      		}
+      //		iterator = Arrays.asList(array).indexOf(stack[k]) + 1;
+      //		System.out.print("\niterator==nArrayLimit->"+
+      //			"Arrays.asList(stack).indexOf(stack[k]) = " + 
+      //			Arrays.asList(array).indexOf(stack[k])+1);
+      	}
       }
     } 
   }
@@ -153,3 +185,8 @@ class Backtrack
 //sa faca toate submultimile posibile cu i elemente
 //sa le adauge intru-un fisier
 //cu propper encoding
+
+
+//trebuie sa il reinitializez pe iterator ca atunci cand raman 
+//fara elemente care le pot adauga din array, dar mai sunt 
+//cazuri posibile, sa poata sa refreseze stackul
