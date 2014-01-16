@@ -96,12 +96,12 @@ class Populatie
 
 
 
-public class Algoritm
+class Algoritm
 {
 	public static final double rata = 0.5;
 	public static final double indexMutatie = 0.01;
 
-	/*public static Populatie evolutie(Populatie objPop)
+	public static Populatie evolutie(Populatie objPop)
 	{
 		Populatie newPop = new Populatie(objPop.size(), false);
 
@@ -120,7 +120,7 @@ public class Algoritm
 
 		return newPop;
 	}
-*/
+
 	public static int binarySearch(float[] ceva,
 	 int s, int d, float toSearch)
 	{
@@ -129,7 +129,7 @@ public class Algoritm
 		{
 			mid = (s+d)/2;
 			if(mid == toSearch)
-				reuturn mid+1;
+				return mid+1;
 			else if(ceva[mid]<toSearch)
 				s=mid+1;
 			else
@@ -294,15 +294,25 @@ public class Algoritm
 			float u = rand.nextFloat() * (1-0) + 0;
 			if(u<0.1)
 			{
-				//int breakpoint = 2 + (int)(Math.random() * (((i1.strADN.lenght()-2) - 0) + 1));
-				if(objPop.indivizi[i].charAt(breakpoint) == 0)
-					//vezi test aici faci schimbarea
+				int breakpoint = 2 + (int)(Math.random() * (((i1.strADN.lenght()-2) - 0) + 1));
+				if(objPop.indivizi[i].strADN.charAt(breakpoint) == 0)
+				{
+					char[] aux = objPop.indivizi[i].strADN.toCharArray();
+					aux[breakpoint] = '1';
+					objPop.indivizi = String.valueOf(aux);
+				}
+				else
+				{
+					char[] aux = objPop.indivizi[i].strADN.toCharArray();
+					aux[breakpoint] = '0';
+					objPop.indivizi = String.valueOf(aux);
+				}
 			}
 		}
 	}
-}
 
-public static void main(String[] args)
-{
+	public static void main(String[] args)
+	{
 		//TO DO
+	}
 }
